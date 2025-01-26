@@ -101,9 +101,9 @@ const HealthcareSearch = () => {
         params.append("lng", userLocation.longitude);
       }
 
-      console.log('Fetching from:', `http://localhost:8000${endpoint}?${params}`);
+      console.log('Fetching from:', `https://medico-jet.vercel.app${endpoint}?${params}`);
       
-      const response = await fetch(`http://localhost:8000${endpoint}?${params}`);
+      const response = await fetch(`https://medico-jet.vercel.app${endpoint}?${params}`);
       const data = await response.json();
 
       console.log('Search response:', data);
