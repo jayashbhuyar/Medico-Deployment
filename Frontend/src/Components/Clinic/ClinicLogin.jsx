@@ -55,7 +55,7 @@ function ClinicLogin() {
         const toastId = toast.loading("Logging in...");
 
         const response = await axios.post(
-          "http://localhost:8000/api/clinics/login",
+          "https://medico-jet.vercel.app/api/clinics/login",
           formData,
           {
             headers: {

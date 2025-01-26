@@ -153,7 +153,7 @@ const AllDoctors = () => {
     const fetchDoctors = async () => {
       try {
         const hospitalData = JSON.parse(localStorage.getItem('hospitalData'));
-        const response = await fetch(`http://localhost:8000/api/doctors/organization/${hospitalData.id}`, {
+        const response = await fetch(`https://medico-jet.vercel.app/api/doctors/organization/${hospitalData.id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('hospitalToken')}`
           }

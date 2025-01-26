@@ -32,7 +32,7 @@ const INDIA_STATES_CITIES = {
   Kerala: ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur"],
 };
 
-const API_URL = 'http://localhost:8000/api/hospitals';
+const API_URL = 'https://medico-jet.vercel.app/api/hospitals';
 
 function HospitalRegistration() {
   const [step, setStep] = useState(1);
@@ -208,7 +208,7 @@ function HospitalRegistration() {
         }
 
         const response = await axios.post(
-          'http://localhost:8000/api/hospitals/register',
+          'https://medico-jet.vercel.app/api/hospitals/register',
           hospitalData,
           {
             headers: {

@@ -265,7 +265,7 @@ const AddDoctor = () => {
   //     console.log(hospitalToken);
   //     console.log(formData);
   //     try {
-  //       const response = await fetch('http://localhost:8000/api/doctors/add', {
+  //       const response = await fetch('https://medico-jet.vercel.app/api/doctors/add', {
   //         method: 'POST',
   //         headers: {
   //           'Content-Type': 'application/json',
@@ -306,7 +306,7 @@ const AddDoctor = () => {
     console.log("Form Data to be sent:", formData);
 
     try {
-      const response = await fetch("http://localhost:8000/api/doctors/add", {
+      const response = await fetch("https://medico-jet.vercel.app/api/doctors/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

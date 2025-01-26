@@ -186,7 +186,7 @@ const handleSubmit = async (e) => {
       }
 
       const response = await axios.post(
-        'http://localhost:8000/api/clinics/register',
+        'https://medico-jet.vercel.app/api/clinics/register',
         clinicData,
         {
           headers: {

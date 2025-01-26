@@ -21,7 +21,7 @@ function HospitalLogin() {
   //     console.log(token)
   //     if (token) {
   //       try {
-  //         const response = await axios.get('http://localhost:8000/api/hospitals/validate', {
+  //         const response = await axios.get('https://medico-jet.vercel.app/api/hospitals/validate', {
   //           headers: {
   //             Authorization: `Bearer ${token}`
   //           }
@@ -65,7 +65,7 @@ function HospitalLogin() {
       toast.dismiss();
       
       try {
-        const response = await axios.post('http://localhost:8000/api/hospitals/login', formData);
+        const response = await axios.post('https://medico-jet.vercel.app/api/hospitals/login', formData);
         const { message, token, hospital } = response.data;
 
         if (token) {
