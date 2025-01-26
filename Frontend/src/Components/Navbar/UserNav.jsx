@@ -50,7 +50,7 @@ const UserNav = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
+            <img src="https://img.freepik.com/premium-vector/medical-health-logo-design-templates_161396-341.jpg" alt="Logo" className="h-8 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}

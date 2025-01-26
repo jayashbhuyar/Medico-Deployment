@@ -322,17 +322,6 @@ const HealthcareSearch = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <UserNav />
-      <div className="flex items-center justify-center md:justify-start px-4 py-2">
-        <img 
-          src="https://img.freepik.com/premium-vector/medical-health-logo-design-templates_161396-341.jpg"
-          alt="Medico Healthcare Logo"
-          className="h-12 md:h-16 w-auto object-contain hover:opacity-90 transition-opacity duration-300"
-          style={{
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}
-        />
-      </div>
       <div className="relative h-screen">
         <video
           autoPlay
