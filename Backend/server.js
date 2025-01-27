@@ -11,6 +11,7 @@ const doctorRoutes = require("./routes/doctorRoutes");
 // const clinicRoutes = require('./routes/clinicRoutes');
 // const consultantRoutes = require('./routes/consultantRoutes');
 const searchRoutes = require('./routes/patientSearch');
+const usernavRoutes=require('./routes/usernavRoutes')
 
 const app = express();
 
@@ -38,6 +39,8 @@ mongoose
   app.use("/api/doctors", doctorRoutes);
 // Routes
 app.use("/api/hospitals", hospitalRoutes);
+app.use('/api/user/v2', usernavRoutes);
+app.use("/api/user/hospitals", usernavRoutes);
 // Add to existing routes
 // app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/clinics', clinicRoutes);
@@ -46,7 +49,7 @@ app.use('/api/clinics', clinicRoutes);
 
 // Base route
 app.get("/", (req, res) => {
-  res.send("Medico API is running");
+  res.send("Nirogya API is running");
 });
 
 // Error handling middleware
@@ -64,3 +67,4 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+ 

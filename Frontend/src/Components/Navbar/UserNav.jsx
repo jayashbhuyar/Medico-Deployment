@@ -1,90 +1,161 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  FaHome, FaHospital, FaClinicMedical, FaUserMd,
-  FaInfoCircle, FaPhone, FaBars, FaTimes, FaBell,
-  FaStethoscope, FaAmbulance, FaPills, FaHeartbeat,
-  FaChevronDown, FaSearch, FaRegQuestionCircle
+import { 
+  FaHome, FaHospital, FaUserMd, FaStethoscope, FaClinicMedical,
+  FaInfoCircle, FaRegQuestionCircle, FaAmbulance, FaPills,
+  FaHeartbeat, FaBars, FaTimes, FaUserCircle 
 } from 'react-icons/fa';
 
 const UserNav = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const location = useLocation();
   const dropdownRef = useRef(null);
 
-  const navItems = [
-    { name: 'Home', path: '/', icon: <FaHome className="text-blue-500" /> },
-    { name: 'Hospitals', path: '/hospitals', icon: <FaHospital className="text-blue-500" /> },
-    { name: 'Clinics', path: '/clinics', icon: <FaClinicMedical className="text-blue-500" /> },
-    { name: 'Doctors', path: '/doctors', icon: <FaUserMd className="text-blue-500" /> },
-    {
-      name: 'Services',
-      icon: <FaStethoscope className="text-blue-500" />,
-      subItems: [
-        { name: 'Emergency Care', path: '/emergency', icon: <FaAmbulance className="text-red-500" /> },
-        { name: 'Pharmacy', path: '/pharmacy', icon: <FaPills className="text-green-500" /> },
-        { name: 'Health Checkup', path: '/checkup', icon: <FaHeartbeat className="text-pink-500" /> },
-      ]
-    },
-    { name: 'About Us', path: '/about', icon: <FaInfoCircle className="text-blue-500" /> },
-    { name: 'Help', path: '/help', icon: <FaRegQuestionCircle className="text-blue-500" /> },
-  ];
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setActiveDropdown(null);
+    }
+  };
 
-  // Click outside handler
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsServicesOpen(false);
-      }
-    };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const navItems = [
+    { name: 'Home', path: '/', icon: <FaHome className="w-5 h-5" /> },
+    { name: 'Hospitals', path: '/usernavhospitals', icon: <FaHospital className="w-5 h-5" /> },
+    { name: 'Clinics', path: '/clinics', icon: <FaClinicMedical className="w-5 h-5" /> },
+    { name: 'Doctors', path: '/usernavdoctors', icon: <FaUserMd className="w-5 h-5" /> },
+    {
+      name: 'Services',
+      icon: <FaStethoscope className="w-5 h-5" />,
+      subItems: [
+        { name: 'Emergency Care', path: '/emergency', icon: <FaAmbulance className="w-5 h-5" /> },
+        { name: 'Pharmacy', path: '/pharmacy', icon: <FaPills className="w-5 h-5" /> },
+        { name: 'Health Checkup', path: '/checkup', icon: <FaHeartbeat className="w-5 h-5" /> },
+      ]
+    },
+    { name: 'About Us', path: '/usernavabout', icon: <FaInfoCircle className="w-5 h-5" /> },
+    { name: 'Help', path: '/usernavhelp', icon: <FaRegQuestionCircle className="w-5 h-5" /> },
+  ];
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src="https://img.freepik.com/premium-vector/medical-health-logo-design-templates_161396-341.jpg" alt="Logo" className="h-8 w-auto" />
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center"
+            >
+              <img src="/logo.png" alt="Medico" className="h-8 w-auto mr-2" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 
+                             bg-clip-text text-transparent">Medico</span>
+            </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className="px-3 py-2 rounded-md text-sm font-medium 
-                         text-gray-600 hover:text-blue-600 hover:bg-blue-50 
-                         transition duration-150 ease-in-out
-                         flex items-center"
-              >
-                <span className="mr-2">{item.icon}</span>
-                {item.name}
-              </Link>
+              <div key={item.name} className="relative" ref={dropdownRef}>
+                {item.subItems ? (
+                  <motion.button
+                    onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                    className={`px-4 py-2 rounded-md inline-flex items-center space-x-2
+                              ${activeDropdown === item.name ? 'text-blue-600 bg-blue-50' : 
+                              'text-gray-600 hover:text-blue-600 hover:bg-blue-50'}`}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </motion.button>
+                ) : (
+                  <motion.div whileHover={{ scale: 1.05 }}>
+                    <Link
+                      to={item.path}
+                      className={`px-4 py-2 rounded-md inline-flex items-center space-x-2
+                                ${location.pathname === item.path ? 
+                                'text-blue-600 bg-blue-50' : 
+                                'text-gray-600 hover:text-blue-600 hover:bg-blue-50'}`}
+                    >
+                      {item.icon}
+                      <span>{item.name}</span>
+                    </Link>
+                  </motion.div>
+                )}
+
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {item.subItems && activeDropdown === item.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full left-0 w-48 py-2 mt-1 bg-white rounded-xl 
+                               shadow-lg ring-1 ring-black ring-opacity-5"
+                    >
+                      {item.subItems.map((subItem) => (
+                        <motion.div
+                          key={subItem.name}
+                          whileHover={{ x: 5 }}
+                        >
+                          <Link
+                            to={subItem.path}
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 
+                                     hover:bg-blue-50 hover:text-blue-600"
+                          >
+                            {subItem.icon}
+                            <span className="ml-2">{subItem.name}</span>
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
+
+            {/* Login Button - Desktop */}
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <Link
+                to="/userlogin"
+                className="ml-4 px-6 py-2 bg-blue-600 text-white rounded-full 
+                         hover:bg-blue-700 transition-colors duration-300 flex items-center"
+              >
+                <FaUserCircle className="mr-2" />
+                Login
+              </Link>
+            </motion.div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md 
-                       text-gray-400 hover:text-gray-500 hover:bg-gray-100 
-                       focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+          {/* Mobile Navigation */}
+          <div className="md:hidden flex items-center space-x-4">
+            {/* Login Button - Mobile */}
+            <Link
+              to="/userlogin"
+              className="px-4 py-2 text-blue-600 hover:text-blue-700"
             >
-              {isOpen ? <FaTimes className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
-            </button>
+              <FaUserCircle className="w-6 h-6" />
+            </Link>
+
+            {/* Hamburger Menu */}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-md text-gray-600 hover:text-blue-600 
+                       hover:bg-blue-50 focus:outline-none"
+            >
+              {isOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
+            </motion.button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -95,49 +166,35 @@ const UserNav = () => {
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
-                <motion.div 
-                  key={item.name}
-                  whileHover={{ x: 4 }}
-                >
+                <div key={item.name}>
                   {item.subItems ? (
                     <>
                       <button
-                        onClick={() => setIsServicesOpen(!isServicesOpen)}
-                        className="w-full px-3 py-2 rounded-md text-base font-medium 
-                                 text-gray-600 hover:text-blue-600 hover:bg-blue-50 
-                                 flex items-center justify-between"
+                        onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                        className="w-full flex items-center px-3 py-2 rounded-md text-gray-600 
+                                 hover:text-blue-600 hover:bg-blue-50"
                       >
-                        <span className="flex items-center">
-                          <span className="mr-2">{item.icon}</span>
-                          {item.name}
-                        </span>
-                        <FaChevronDown className={`transform transition-transform duration-200
-                          ${isServicesOpen ? 'rotate-180' : ''}`} />
+                        {item.icon}
+                        <span className="ml-2">{item.name}</span>
                       </button>
                       <AnimatePresence>
-                        {isServicesOpen && (
+                        {activeDropdown === item.name && (
                           <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            className="pl-4"
+                            className="pl-6 space-y-1"
                           >
                             {item.subItems.map((subItem) => (
-                              <motion.div
+                              <Link
                                 key={subItem.name}
-                                whileHover={{ x: 4 }}
+                                to={subItem.path}
+                                className="flex items-center px-3 py-2 rounded-md text-sm 
+                                         text-gray-600 hover:text-blue-600 hover:bg-blue-50"
                               >
-                                <Link
-                                  to={subItem.path}
-                                  onClick={() => setIsOpen(false)}
-                                 // Replace conflicting classes with:
-className="inline-flex items-center px-3 py-2 rounded-md text-base font-medium 
-text-gray-600 hover:text-blue-600 hover:bg-blue-50 
-transition-colors duration-200 w-full">
-                                  <span className="mr-2">{subItem.icon}</span>
-                                  {subItem.name}
-                                </Link>
-                              </motion.div>
+                                {subItem.icon}
+                                <span className="ml-2">{subItem.name}</span>
+                              </Link>
                             ))}
                           </motion.div>
                         )}
@@ -145,18 +202,15 @@ transition-colors duration-200 w-full">
                     </>
                   ) : (
                     <Link
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className="inline-flex w-full items-center gap-2 px-3 py-2 
-                              rounded-md text-base font-medium
-                              text-gray-600 hover:text-blue-600 hover:bg-blue-50 
-                              transition-all duration-200"
-                  >
-                    {item.icon}
-                    {item.name}
-                  </Link>
+                      to={item.path}
+                      className="flex items-center px-3 py-2 rounded-md text-gray-600 
+                               hover:text-blue-600 hover:bg-blue-50"
+                    >
+                      {item.icon}
+                      <span className="ml-2">{item.name}</span>
+                    </Link>
                   )}
-                </motion.div>
+                </div>
               ))}
             </div>
           </motion.div>
